@@ -5,15 +5,14 @@ date: September 26, 2022
 output: github_document
 ---
 ## Load Packages
-```{r}
+```{r message=FALSE}
 
 library(tidyverse)
 library(nycflights13)
+library(maps)
+library(ggplot2)
 ```
-
 ## Code
-
-
 ```{r}
 airports2 <- airports %>% 
   select(faa, name)%>%
@@ -22,8 +21,26 @@ airports2 <- airports %>%
 flights2 <- flights %>%
   select(dest,origin, distance)
 
-flights2 %>% 
+farthest_airport <- flights2 %>% 
   left_join(airports2, by= "dest") %>%
   filter(distance==4983) %>% slice(1)
 ```
+## Farthest airport from NYC
 
+```{r}
+farthest_airport
+```
+
+## Introducing Spatial Data
+
+```{r}
+airports %>%
+  distinct(lon,lat) %>%
+  ggplot(aes(lon, lat)) +
+    borders("world") +
+    geom_point(col="red") +
+    labs(x="Lattitude",
+         y="Longitude")+
+    coord_quickmap()
+    
+```
