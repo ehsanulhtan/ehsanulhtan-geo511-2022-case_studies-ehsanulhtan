@@ -24,7 +24,7 @@ flights2 <- flights %>%
 
 farthest_airport <- flights2 %>% 
   left_join(airports2, by= "dest") %>%
-  filter(distance==4983) %>% slice(1)
+  arrange(desc(distance)) %>% slice(1)
 ```
 
 ## Farthest airport from NYC
